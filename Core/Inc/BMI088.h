@@ -5,6 +5,7 @@
 #ifndef CSPI_BMI088_H
 #define CSPI_BMI088_H
 #define BMI088_ACCEL_parm 0.0008974358974f
+#define BMI088_GYRO_parm 0.0174532925f
 #include <cstdint>
 
 

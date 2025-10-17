@@ -5,6 +5,9 @@
 #include "../Inc/callback.h"
 
 #include "tim.h"
+#include "IMU.h"
+#include "BMI088.h"
+
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
     if (htim->Instance == htim6.Instance){

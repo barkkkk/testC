@@ -28,10 +28,39 @@ void Acc_calculate(acc_raw_data *data){
 }
 
 void Gyro_calculate(gyro_raw_data *data){
-    uint8_t rx_gyro_data[6],
+    uint8_t rx_gyro_data[6], range;
+    int16_t gyro[3];
+    float unit;
     // 1. 设置/读取gyro0x0F寄存器中的量程range参数，并换算为量程系数
-
+    bmi088_gyro_read_reg(0x7F, &range, 1);
+    switch (range) {
+        case 0x00:
+            unit = 16.384;
+            break;
+        case 0x01:
+            unit = 32.768;
+            break;
+        case 0x02:
+            unit = 65.536;
+            break;
+        case 0x03:
+            unit = 131.072;
+            break;
+        case 0x04:
+            unit = 262.144;
+            break;
+        default:
+            unit = 16.384;
+            break;
+    }
     // 2. 读取gyro0x02寄存器中的6位gyro数据
-
+    bmi088_gyro_read_reg(0x02, rx_gyro_data, 6);
+    gyro[0] = ((int16_t)rx_gyro_data[1] << 8) + (int16_t)rx_gyro_data[0];
+    gyro[1] = ((int16_t)rx_gyro_data[3] << 8) + (int16_t)rx_gyro_data[2];
+    gyro[2] = ((int16_t)rx_gyro_data[5] << 8) + (int16_t)rx_gyro_data[4];
     // 3. 用量程系数将原始数据转换为常用单位
+    data ->roll = (float)gyro[0] / unit * BMI088_GYRO_parm;
+    data->pitch = (float)gyro[1] / unit * BMI088_GYRO_parm;
+    data -> yaw = (float)gyro[2] / unit * BMI088_GYRO_parm;
+
 }

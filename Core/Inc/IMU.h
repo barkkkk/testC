@@ -24,5 +24,6 @@ typedef struct gyro_raw_data {
 
 //换算函数
 void Acc_calculate(acc_raw_data *data);
+void Gyro_calculate(gyro_raw_data *data);
 
 #endif //CSPI_IMU_H
