@@ -11,7 +11,14 @@ void bmi088_write_byte(uint8_t tx_data) {
     HAL_SPI_Transmit(&hspi1, &tx_data, 1, 1000);
     while (HAL_SPI_GetState(&hspi1) == HAL_SPI_STATE_BUSY_TX);
 }
-void bmi088_read_byte(uint8_t *rx_data, uint8_t length);
+void bmi088_read_byte(uint8_t *rx_data, uint8_t length) {
+    uint8_t RxData;
+    for (int i=0 ; i<length ; i++) {
+        HAL_SPI_Receive(&hspi1, &RxData, 1, 1000);
+        while (HAL_SPI_GetState(&hspi1) == HAL_SPI_STATE_BUSY_RX);
+        rx_data[i] =RxData;
+    }
+};
 
 void bmi088_write_reg(uint8_t reg, uint8_t data); // 向寄存器中写入数据，可参考5.3，5.4寄存器写入方法，先写首位判别符+地址，再写data
 
@@ -43,5 +50,5 @@ void bmi088_accel_write_single_reg(uint8_t reg, uint8_t data) {
 
 // 尝试完成 ↓
 void bmi088_accel_read_reg(uint8_t reg, uint8_t *rx_data, uint8_t length); // 加速度计读取，注意需要忽略第一位数据dummy byte
-void bmi088_gyro_read_reg(uint8_t reg, uint8_t *rx_data, uint8_t length)；;// 陀螺仪读取
-void bmi088_gyro_write_single_reg(uint8_t reg, uint8_t tx_data) // gyro写入
+void bmi088_gyro_read_reg(uint8_t reg, uint8_t *rx_data, uint8_t length);// 陀螺仪读取
+void bmi088_gyro_write_single_reg(uint8_t reg, uint8_t tx_data);// gyro写入
