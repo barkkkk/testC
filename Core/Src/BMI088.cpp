@@ -49,6 +49,30 @@ void bmi088_accel_write_single_reg(uint8_t reg, uint8_t data) {
 }
 
 // 尝试完成 ↓
-void bmi088_accel_read_reg(uint8_t reg, uint8_t *rx_data, uint8_t length); // 加速度计读取，注意需要忽略第一位数据dummy byte
-void bmi088_gyro_read_reg(uint8_t reg, uint8_t *rx_data, uint8_t length);// 陀螺仪读取
-void bmi088_gyro_write_single_reg(uint8_t reg, uint8_t tx_data);// gyro写入
+void bmi088_accel_read_reg(uint8_t reg, uint8_t *rx_data, uint8_t length) {
+    BMI088_GYRO_NS_H();
+    BMI088_ACCEL_NS_L();
+
+    bmi088_write_byte(reg & 0x7F);
+    bmi088_write_byte(data);
+
+    BMI088_ACCEL_NS_H();
+}; // 加速度计读取，注意需要忽略第一位数据dummy byte
+void bmi088_gyro_read_reg(uint8_t reg, uint8_t *rx_data, uint8_t length) {
+    BMI088_GYRO_NS_H();
+    BMI088_ACCEL_NS_L();
+
+    bmi088_write_byte(reg & 0x7F);
+    bmi088_write_byte(data);
+
+    BMI088_ACCEL_NS_H();
+};// 陀螺仪读取
+void bmi088_gyro_write_single_reg(uint8_t reg, uint8_t tx_data) {
+    BMI088_ACCEL_NS_H();
+    BMI088_GYRO_NS_L();
+
+    bmi088_write_byte(reg & 0x7F);
+    bmi088_write_byte(tx_data);
+
+    BMI088_GYRO_NS_H();
+};// gyro写入
