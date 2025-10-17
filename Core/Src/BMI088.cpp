@@ -52,9 +52,16 @@ void bmi088_accel_write_single_reg(uint8_t reg, uint8_t data) {
 void bmi088_accel_read_reg(uint8_t reg, uint8_t *rx_data, uint8_t length) {
     BMI088_GYRO_NS_H();
     BMI088_ACCEL_NS_L();
+    uint8_t accRxData;
+    bmi088_write_byte(reg | 0x80);
 
-    bmi088_write_byte(reg & 0x7F);
-    bmi088_write_byte(data);
+    HAL_SPI_Receive(&hspi1, &accRxData, 1, 1000);
+    while (HAL_SPI_GetState(&hspi1) == HAL_SPI_STATE_BUSY_RX);
+    for (int i=0 ; i<length ; i++) {
+        HAL_SPI_Receive(&hspi1, &accRxData, 1, 1000);
+        while (HAL_SPI_GetState(&hspi1) == HAL_SPI_STATE_BUSY_RX);
+        rx_data[i] = accRxData;
+    }
 
     BMI088_ACCEL_NS_H();
 }; // 加速度计读取，注意需要忽略第一位数据dummy byte
