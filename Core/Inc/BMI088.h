@@ -4,11 +4,13 @@
 
 #ifndef CSPI_BMI088_H
 #define CSPI_BMI088_H
+#define BMI088_ACCEL_parm 0.0008974358974f
 #include <cstdint>
 
 
 class BMI088 {
 };
+
 
 
 //基础函数

@@ -121,4 +121,20 @@ void bmi088_init(void) {
     bmi088_write_reg(0x7D, 0x04); // Write 0x04 to ACC_PWR_CTRL(0x7D)
     HAL_Delay(1);
     BMI088_ACCEL_NS_H();
+
+    // 加速度计配置写入
+    BMI088_ACCEL_NS_L();
+    HAL_Delay(1);
+    bmi088_write_reg(0x41, 0x00); // Write 0x04 to ACC_PWR_CTRL(0x7D)
+    HAL_Delay(1);
+    BMI088_ACCEL_NS_H();
+
+    // 陀螺仪配置写入
+    BMI088_GYRO_NS_L();
+    bmi088_write_reg(0x0F, 0x02); // Write 0xB6 to GYRO_SOFTRESET(0x14)
+    HAL_Delay(30);
+    BMI088_GYRO_NS_H();
+
+
+
 }
