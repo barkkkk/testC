@@ -10,4 +10,16 @@ class IMU {
 };
 
 
+typedef struct acc_raw_data {
+    float x;
+    float y;
+    float z;
+} acc_raw_data;
+
+typedef struct gyro_raw_data {
+    float roll;
+    float pitch;
+    float yaw;
+} gyro_raw_data;
+
 #endif //CSPI_IMU_H
