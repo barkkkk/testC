@@ -5,6 +5,8 @@
 #include "IMU.h"
 #include "BMI088.h"
 
+acc_raw_data imu_acc_data;
+gyro_raw_data imu_gyro_data;
 
 void Acc_calculate(acc_raw_data *data){
     uint8_t rx_acc_data[6], raw_range;

@@ -21,6 +21,9 @@
 #include "spi.h"
 #include "tim.h"
 #include "gpio.h"
+#include "BMI088.h"
+#include "IMU.h"
+
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -45,7 +48,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t a =3;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
