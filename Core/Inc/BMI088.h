@@ -6,12 +6,9 @@
 #define CSPI_BMI088_H
 #define BMI088_ACCEL_parm 0.0008974358974f
 #define BMI088_GYRO_parm 0.0174532925f
-#include <cstdint>
+#include "main.h"
 
-
-class BMI088 {
-};
-
+extern uint8_t accRxData;
 
 
 //基础函数

@@ -5,7 +5,7 @@
 #include "BMI088.h"
 #include "spi.h"
 #include "stm32f4xx_hal_spi.h"
-
+uint8_t accRxData;
 
 
 
@@ -64,7 +64,6 @@ void bmi088_accel_write_single_reg(uint8_t reg, uint8_t data) {
 void bmi088_accel_read_reg(uint8_t reg, uint8_t *rx_data, uint8_t length) {
     BMI088_GYRO_NS_H();
     BMI088_ACCEL_NS_L();
-    uint8_t accRxData;
     bmi088_write_byte(reg | 0x80);
 
     HAL_SPI_Receive(&hspi1, &accRxData, 1, 1000);

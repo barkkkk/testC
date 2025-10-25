@@ -5,11 +5,6 @@
 #ifndef CSPI_IMU_H
 #define CSPI_IMU_H
 
-
-class IMU {
-};
-
-
 typedef struct acc_raw_data {
     float x;
     float y;
