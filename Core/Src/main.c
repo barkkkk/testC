@@ -47,7 +47,8 @@ uint32_t count=0;
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+RC_ctl_t RC_ctl;
+uint8_t sbus_rx_buffer[18];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -58,6 +59,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
 
 /* USER CODE END 0 */
 
@@ -93,10 +95,10 @@ int main(void)
   MX_DMA_Init();
   MX_TIM6_Init();
   MX_SPI1_Init();
-  MX_USART1_UART_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim6);
+  HAL_UART_Receive_DMA(&huart3,sbus_rx_buffer,18);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -156,7 +158,16 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+  RC_ctl.rc.ch0 = (sbus_rx_buffer[0] | (sbus_rx_buffer[1] << 0)) & 0x07ff;
+  RC_ctl.rc.ch1 = ((sbus_rx_buffer[1] >> 3 ) | (sbus_rx_buffer[2] << 5)) & 0x0ff;
+  RC_ctl.rc.ch2 = ((sbus_rx_buffer[2] >> 6) | (sbus_rx_buffer[3] << 2) | (sbus_rx_buffer[4] << 10)) & 0x07ff;
+  RC_ctl.rc.ch3 = ((sbus_rx_buffer[4] >> 1) | (sbus_rx_buffer[5] <<7)) & 0x07ff;
 
+  RC_ctl.rc.s1 = ((sbus_rx_buffer[5] >> 4) & 0x000C) >>2;
+  RC_ctl.rc.s2 = ((sbus_rx_buffer[5] >> 4) & 0x0003);
+
+}
 /* USER CODE END 4 */
 
 /**
